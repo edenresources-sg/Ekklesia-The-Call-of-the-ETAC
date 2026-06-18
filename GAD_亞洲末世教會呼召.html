@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ekklesia · 末世亞洲教會的呼召 — George Annadorai 牧師</title>
+<style>
+  :root {
+    --burg: #5C1A2E; --burg2: #7D2641; --gold: #B8860B; --gold-l: #D4A017;
+    --cream: #FAF3E0; --white: #FFFFFF; --dark: #1E0A0E; --mid: #4A2030;
+    --gold-lt: #F5E6C8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #2C1010; color: var(--dark); }
+
+  /* NAV */
+  #nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(28,8,14,0.95); padding: 8px 20px;
+    border-bottom: 2px solid var(--gold);
+  }
+  #nav-title { color: var(--gold-l); font-family: Georgia, serif; font-size: 14px; }
+  #nav-controls { display: flex; gap: 8px; align-items: center; }
+  .nav-btn {
+    background: var(--burg2); color: var(--gold-l); border: 1px solid var(--gold);
+    padding: 4px 14px; cursor: pointer; font-size: 13px; font-family: Georgia, serif;
+    border-radius: 2px; transition: background 0.2s;
+  }
+  .nav-btn:hover { background: var(--gold); color: var(--dark); }
+  #slide-counter { color: var(--gold); font-size: 13px; min-width: 60px; text-align: center; }
+
+  /* PROGRESS */
+  #progress-bar { height: 3px; background: var(--burg2); }
+  #progress-fill { height: 3px; background: var(--gold-l); transition: width 0.3s; }
+
+  /* SLIDES CONTAINER */
+  #slides { padding-top: 52px; }
+
+  /* SLIDE */
+  .slide {
+    display: none; min-height: calc(100vh - 52px);
+    padding: 32px 40px 8px;
+    animation: fadeIn 0.3s ease;
+  }
+  .slide.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* SLIDE THEMES */
+  .slide-dark { background: var(--burg); }
+  .slide-light { background: var(--cream); }
+  .slide-mid { background: #3A1020; }
+
+  /* COVER */
+  .cover-box {
+    background: var(--burg);
+    border: 3px solid var(--gold-l);
+    padding: 48px 48px 36px;
+    max-width: 880px; margin: 20px auto;
+    position: relative;
+  }
+  .cover-box::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 12px; background: var(--gold);
+  }
+  .cover-box::after {
+    content: ''; position: absolute; left: 0; top: 0; right: 0;
+    height: 6px; background: var(--gold-l);
+  }
+  .cover-main-title {
+    font-family: Georgia, serif; font-size: 42px; font-weight: bold;
+    color: var(--gold-l); line-height: 1.2; margin-bottom: 12px; padding-left: 12px;
+  }
+  .cover-sub { font-size: 18px; color: #E8C070; font-style: italic; margin-bottom: 24px; padding-left: 12px; }
+  .cover-src { font-size: 13px; color: #D4A060; margin-bottom: 6px; padding-left: 12px; }
+  .cover-quote {
+    background: var(--burg2); border: 1px solid var(--gold);
+    padding: 16px 20px; margin-top: 28px;
+    font-family: Georgia, serif; font-size: 14px; font-style: italic;
+    color: var(--gold-l); text-align: center;
+  }
+
+  /* TYPOGRAPHY */
+  .slide-title {
+    font-family: Georgia, serif; font-size: 28px; font-weight: bold;
+    color: var(--gold-l); border-bottom: 2px solid var(--gold);
+    padding-bottom: 8px; margin-bottom: 20px;
+  }
+  .slide-title.dark-title { color: var(--burg); }
+  .slide-title-dark { font-family: Georgia, serif; font-size: 28px; font-weight: bold; color: var(--gold-l); border-bottom: 1px solid var(--gold); padding-bottom: 8px; margin-bottom: 20px; }
+  .slide-subtitle { font-size: 14px; font-style: italic; color: #E8C070; margin-top: -14px; margin-bottom: 18px; }
+  .slide-subtitle.dark-sub { color: var(--mid); }
+
+  /* GRID */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .grid4 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+
+  /* CARDS */
+  .card-dark { background: var(--burg2); border: 1px solid var(--gold); padding: 14px 16px; }
+  .card-light { background: var(--gold-lt); border: 1px solid var(--gold); padding: 14px 16px; }
+  .card-mid { background: #2A1022; border: 1px solid var(--burg2); padding: 14px 16px; }
+  .card-title { font-family: Georgia, serif; font-size: 14px; font-weight: bold; color: var(--gold-l); border-bottom: 1px solid var(--gold); padding-bottom: 6px; margin-bottom: 8px; }
+  .card-title.dark-ct { color: var(--burg); }
+  .card-body { font-size: 12.5px; line-height: 1.55; color: #F0D898; }
+  .card-body.dark-cb { color: var(--dark); }
+
+  /* QUOTE BOXES */
+  .quote-box {
+    border-left: 5px solid var(--gold); background: #F5E6C8;
+    padding: 14px 18px; margin: 12px 0;
+    font-family: Georgia, serif; font-size: 13px; font-style: italic; color: var(--mid);
+  }
+  .quote-src { font-size: 11px; color: var(--gold); text-align: right; margin-top: 6px; font-style: normal; }
+  .quote-box.dark-quote {
+    background: var(--burg2); border-left-color: var(--gold-l); color: #F0D898;
+  }
+  .quote-box.dark-quote .quote-src { color: var(--gold-l); }
+
+  /* CALLOUT */
+  .callout-gold {
+    background: var(--gold); color: var(--dark);
+    padding: 14px 20px; text-align: center;
+    font-family: Georgia, serif; font-size: 14px; font-weight: bold;
+    margin: 14px 0;
+  }
+  .callout-burg {
+    background: var(--burg2); border: 2px solid var(--gold-l);
+    color: var(--gold-l); padding: 14px 20px; text-align: center;
+    font-family: Georgia, serif; font-size: 14px; font-style: italic;
+    margin: 14px 0;
+  }
+
+  /* ITEM ROWS */
+  .item-row {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: var(--burg2); border: 1px solid var(--gold);
+    padding: 12px 16px; margin-bottom: 10px;
+  }
+  .item-num {
+    background: var(--gold); color: var(--dark); font-family: Georgia, serif;
+    font-size: 18px; font-weight: bold; min-width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .item-content .item-title { font-family: Georgia, serif; font-size: 13px; font-weight: bold; color: var(--gold-l); margin-bottom: 4px; }
+  .item-content .item-text { font-size: 12.5px; color: white; line-height: 1.5; }
+
+  /* TABLE */
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin: 12px 0; }
+  th { background: var(--burg); color: var(--gold-l); font-family: Georgia, serif; padding: 8px 10px; text-align: left; border: 1px solid var(--gold); }
+  td { padding: 8px 10px; border: 1px solid #CCCCCC; vertical-align: top; }
+  tr:nth-child(even) td { background: #F5E6C8; }
+  tr:nth-child(odd) td { background: var(--cream); }
+  tr.burg-row td { background: var(--burg2); color: white; }
+  tr.burg-row td:first-child { font-weight: bold; color: var(--gold-l); }
+
+  /* 5A STEPS */
+  .five-a { display: flex; gap: 8px; margin-top: 12px; }
+  .a-step { flex: 1; }
+  .a-letter { background: var(--burg); border: 2px solid var(--gold); text-align: center; padding: 8px; font-family: Georgia, serif; font-size: 28px; font-weight: bold; color: var(--gold-l); }
+  .a-word { background: var(--gold); color: var(--dark); text-align: center; padding: 5px; font-family: Georgia, serif; font-size: 12px; font-weight: bold; }
+  .a-zh { background: var(--burg2); color: white; text-align: center; padding: 5px; font-size: 12px; }
+  .a-ref { background: var(--cream); color: var(--burg); text-align: center; padding: 4px; font-size: 10.5px; font-style: italic; }
+  .a-desc { background: var(--gold-lt); color: var(--dark); padding: 8px 6px; font-size: 11.5px; line-height: 1.4; min-height: 60px; }
+
+  /* BULLET LIST */
+  ul.content-list { list-style: none; margin: 8px 0; }
+  ul.content-list li { padding: 5px 0 5px 24px; font-size: 13px; line-height: 1.5; position: relative; }
+  ul.content-list li::before { content: "▶"; color: var(--gold); position: absolute; left: 0; font-size: 10px; top: 8px; }
+  ul.content-list.light-list li { color: var(--dark); }
+  ul.content-list.dark-list li { color: #F0D898; }
+
+  /* KEYBOARD HINT */
+  #key-hint {
+    position: fixed; bottom: 16px; right: 20px;
+    color: rgba(212,160,23,0.5); font-size: 11px;
+    pointer-events: none;
+  }
+
+  /* FOOTER NUMBER */
+  .slide-footer { text-align: right; font-size: 11px; color: rgba(212,160,23,0.4); margin-top: 14px; padding-bottom: 20px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) {
+    .grid2, .grid3, .grid4 { grid-template-columns: 1fr; }
+    .five-a { flex-direction: column; }
+    .slide { padding: 20px 16px; }
+    .cover-main-title { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV BAR -->
+<div id="nav">
+  <div id="nav-title">Ekklesia · 末世亞洲教會的呼召 — George Annadorai 牧師</div>
+  <div id="nav-controls">
+    <button class="nav-btn" onclick="prevSlide()">← 上一頁</button>
+    <span id="slide-counter">1 / 12</span>
+    <button class="nav-btn" onclick="nextSlide()">下一頁 →</button>
+  </div>
+</div>
+<div id="progress-bar"><div id="progress-fill"></div></div>
+
+<div id="slides">
+
+<!-- ─── SLIDE 1: COVER ─────────────────────────────────────── -->
+<div class="slide slide-dark active">
+  <div class="cover-box">
+    <div class="cover-main-title">Ekklesia<br>末世亞洲教會的呼召</div>
+    <div class="cover-sub">最後機會 · 挑戰 · 責任 · 使命</div>
+    <div class="cover-src">George Annadorai 牧師教導整合</div>
+    
+    <div class="cover-quote">「我們是末後的跑者——故事的結局在我們手中，容不得犯錯。」</div>
+  </div>
+  <div class="slide-footer">1 / 12</div>
+</div>
+
+<!-- ─── SLIDE 2: 上帝的故事 ────────────────────────────────── -->
+<div class="slide slide-light">
+  <div class="slide-title dark-title">上帝的故事：一個完整的敘事</div>
+  <div class="grid2">
+    <div class="card-dark">
+      <div class="card-title">聖經是一個故事</div>
+      <div class="card-body">
+        從伊甸園 1.0 → 伊甸園 2.0<br>從舊創造 → 新創造<br><br>
+        這是唯一的故事，只有一個結局。每一代都有自己的位置，每一代都在推動故事走向下一個站。
+      </div>
+    </div>
+    <div class="card-light">
+      <div class="card-title dark-ct">禱告是推動故事的力量</div>
+      <div class="card-body dark-cb">
+        亞伯拉罕、摩西、大衛知道自己在故事的哪個位置，用禱告把故事推向下一站。<br><br>
+        <strong>禱告不是紀律（discipline），而是力量（force）。</strong><br><br>
+        今日的24-7禱告量龐大卻在轉圈——因為我們不知道故事在哪裡，不知道下一站在哪裡。
+      </div>
+    </div>
+  </div>
+  <div class="quote-box">
+    「明白聖經的完整故事，是任何基督徒所能擁有的最大保障。一旦你了解了故事的主線，任何出現在故事之外的東西，都可以輕易地斥為欺騙和謊言。」
+    <div class="quote-src">— 2026 Lesson 10（2026.06.15）</div>
+  </div>
+  <div class="slide-footer">2 / 12</div>
+</div>
+
+<!-- ─── SLIDE 3: 四象限 ───────────────────────────────────── -->
+<div class="slide slide-light">
+  <div class="slide-title dark-title">四象限：教會的歷史座標</div>
+  <div class="grid2">
+    <div class="card-dark" style="border-color:#5A9E54; border-width:2px;">
+      <div class="card-title" style="color:#8FDB88;">Q1 早期教會（公元1–3世紀）</div>
+      <div class="card-body" style="color:#CCF0C8;">
+        比喻：<strong style="color:#8FDB88;">起飛</strong><br><br>
+        直接從十二使徒承接天國福音<br>
+        聚焦萬國，不只是靈魂<br>
+        <em>不會犯錯，因為正在蓬勃發展</em>
+      </div>
+    </div>
+    <div class="card-dark" style="border-color:#5470B0; border-width:2px;">
+      <div class="card-title" style="color:#88A8E8;">Q2 歐洲教會（中世紀~宗教改革）</div>
+      <div class="card-body" style="color:#C8D8F8;">
+        比喻：<strong style="color:#88A8E8;">在空中飛行</strong><br><br>
+        有自由但漸偏；取代神學扭曲故事<br>
+        以政治力量代替天國治理<br>
+        <em>可以搖擺，但已偏離軌道</em>
+      </div>
+    </div>
+    <div class="card-dark" style="border-color:#B07030; border-width:2px;">
+      <div class="card-title" style="color:#D09858;">Q3 美國福音派（近現代）</div>
+      <div class="card-body" style="color:#E8C898;">
+        比喻：<strong style="color:#D09858;">再起飛</strong><br><br>
+        靈魂得救卻失去國家視野<br>
+        患難前被提論 + 末世恐懼出口<br>
+        <em>偏離天國核心的福音</em>
+      </div>
+    </div>
+    <div class="card-dark" style="border-color:var(--gold); border-width:2px;">
+      <div class="card-title">Q4 末世亞洲教會（現在）</div>
+      <div class="card-body">
+        比喻：<strong style="color:var(--gold-l);">正在著陸 · 紮根</strong><br><br>
+        恢復天國福音完整性<br>
+        守望以色列 · 門訓萬國<br>
+        <em style="color:var(--gold-l);">故事的最後一棒——到我們這裡結束</em>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">3 / 12</div>
+</div>
+
+<!-- ─── SLIDE 4: 第四象限 ─────────────────────────────────── -->
+<div class="slide slide-dark">
+  <div class="slide-title-dark">我們是誰？第四象限 · 末世亞洲教會</div>
+  <div class="item-row">
+    <div class="item-num">1</div>
+    <div class="item-content">
+      <div class="item-title">故事的最後一棒</div>
+      <div class="item-text">這場比賽到我們這裡就結束了。我們必須把接力棒交給耶穌。每一代都把故事推向下一站，而我們是最後的跑者。</div>
+    </div>
+  </div>
+  <div class="item-row">
+    <div class="item-num">2</div>
+    <div class="item-content">
+      <div class="item-title">我們的決定將決定耶穌何時再來</div>
+      <div class="item-text">耶穌的再來，取決於我們的行動與委身。故事的結局不是被動等待，而是主動承擔——我們的選擇塑造歷史。</div>
+    </div>
+  </div>
+  <div class="item-row">
+    <div class="item-num">3</div>
+    <div class="item-content">
+      <div class="item-title">最後一次恢復天國福音的機會</div>
+      <div class="item-text">我們還有最後一次機會，重新獲得最初的天國福音——不只是個人得救，而是萬國被門訓、天國在地上建立。</div>
+    </div>
+  </div>
+  <div class="item-row">
+    <div class="item-num">4</div>
+    <div class="item-content">
+      <div class="item-title">亞洲的時刻已到</div>
+      <div class="item-text">上帝的目光正注視著這片土地。在新加坡、印尼、馬來西亞、台灣之間，有老師從未見過如此大的事正在醞釀。</div>
+    </div>
+  </div>
+  <div class="slide-footer" style="color:rgba(212,160,23,0.4);">4 / 12</div>
+</div>
+
+<!-- ─── SLIDE 5: 飛機著陸 ─────────────────────────────────── -->
+<div class="slide slide-light">
+  <div class="slide-title dark-title">飛機著陸：最後的紮根</div>
+  <div class="callout-burg">飛機正在著陸：容不下偏差，必須落對跑道，走對方向</div>
+  <table>
+    <tr>
+      <th>教會</th><th>飛行狀態</th><th>處境</th><th>特徵</th>
+    </tr>
+    <tr>
+      <td><strong>Q1 早期教會</strong></td><td>起飛</td><td>蓬勃發展</td><td>不會犯錯，因為正在上升</td>
+    </tr>
+    <tr>
+      <td><strong>Q2 歐洲教會</strong></td><td>在空中</td><td>可以搖擺</td><td>左右偏移仍可調整</td>
+    </tr>
+    <tr>
+      <td><strong>Q3 美國福音派</strong></td><td>再起飛</td><td>偏航的飛行</td><td>飛起卻失去天國核心</td>
+    </tr>
+    <tr class="burg-row">
+      <td><strong>Q4 末世亞洲教會</strong></td><td>正在著陸 ✈</td><td>紮根</td><td>絕對不能犯錯——落對跑道是使命</td>
+    </tr>
+  </table>
+  <div class="quote-box">
+    「著陸必須保持軌跡。在飛行中，你有自由可以左右移動；但在著陸時，你不能。亞洲的末世教會正在著陸——我們不能任由風吹雨打，絕對不行。主動權在我們手裡，責任在我們身上。」
+    <div class="quote-src">— 2026 Lesson 3（2026.04.27）</div>
+  </div>
+  <div class="slide-footer">5 / 12</div>
+</div>
+
+<!-- ─── SLIDE 6: 不能犯錯 ─────────────────────────────────── -->
+<div class="slide slide-dark">
+  <div class="slide-title-dark">我們絕對不能犯錯</div>
+  
+  <div class="quote-box dark-quote">
+    「我們，因為我們屬於第四象限，也就是亞洲的末世教會，我們絕對不能犯錯。我們不能被蒙蔽，因為這場比賽的勝負取決於我們，故事的結局也取決於我們。」
+    <div class="quote-src">— SG247 C5 M3（2026.01.21）</div>
+  </div>
+  <div class="quote-box dark-quote">
+    「對我們而言，尤其是作為末世亞洲教會，至關重要的是，我們不能犯錯。歐洲教會犯了很多錯，福音派教會也犯了很多錯。現在，我們做不到了——因為這場競賽到我們這裡就結束了。我們必須把接力棒交給耶穌。」
+    <div class="quote-src">— SG247 C5 M4（2026.03.05）</div>
+  </div>
+  <div class="quote-box dark-quote">
+    「我們必須作為末世教會行事端正。我們不能任由風吹雨打。我們必須讓飛機回到預定軌道上——把事情做好的責任在我們身上，主動權在我們手裡。」
+    <div class="quote-src">— 2026 Lesson 3（2026.04.27）</div>
+  </div>
+  <div class="slide-footer" style="color:rgba(212,160,23,0.4);">6 / 12</div>
+</div>
+
+<!-- ─── SLIDE 7: 挑戰 ──────────────────────────────────────── -->
+<div class="slide slide-light">
+  <div class="slide-title dark-title">我們的挑戰：欺騙與恐懼</div>
+  <div class="grid2">
+    <div class="card-dark">
+      <div class="card-title">⚠ 欺騙的威脅</div>
+      <div class="card-body">
+        <strong style="color:var(--gold-l);">撒旦攻擊末世教會最強的武器</strong><br><br>
+        <ul class="content-list dark-list" style="margin:0;">
+          <li>時代論神學扭曲末世觀</li>
+          <li>患難前被提論製造錯誤安全感</li>
+          <li>將《啟示錄》視為恐怖之書</li>
+          <li>不明白聖經是一個故事一個結局</li>
+        </ul><br>
+        <em style="color:var(--gold-l);">耶穌最重要的警告：「謹慎，不要被欺騙」（太24章）</em>
+      </div>
+    </div>
+    <div class="card-light">
+      <div class="card-title dark-ct">⚠ 恐懼的威脅</div>
+      <div class="card-body dark-cb">
+        <strong>亞洲信徒在市場上被恐懼驅動</strong><br><br>
+        <ul class="content-list light-list" style="margin:0;">
+          <li>對人工智能、敵基督的焦慮</li>
+          <li>不敢在市場上做決策、投資</li>
+          <li>末世論被美國出口，帶來錯誤信息</li>
+          <li>COVID 的功課被教會錯失</li>
+        </ul><br>
+        <em style="color:var(--burg);">「任何被恐懼驅動的人不應該投資——必然做出錯誤決定。」</em>
+      </div>
+    </div>
+  </div>
+  <div class="callout-gold">恐懼的靈不是來自神——唯有信心的靈才是。（Lesson 10）</div>
+  <div class="slide-footer">7 / 12</div>
+</div>
+
+<!-- ─── SLIDE 8: 美國的落幕 ──────────────────────────────── -->
+<div class="slide slide-dark">
+  <div class="slide-title-dark">美國的落幕 · 亞洲的崛起</div>
+  <div class="slide-subtitle">天上的聚光燈正在轉移</div>
+  <div class="grid2">
+    <div class="card-mid" style="border-color:#8070A0;">
+      <div class="card-title" style="color:#C0A0E0;">美國：參孫的末後</div>
+      <div class="card-body" style="color:#D8C8F0;">
+        歷史學家（Toynbee、Durant）：帝國壽命約 250 年<br>
+        美國 2026 年屆滿 250 年<br><br>
+        老師以<em>參孫</em>比喻美國：有輝煌的開始，失去方向。5月17日的禱告是最後一次膏抹——上帝會成就最後一次大事，但那將是最後一次。<br><br>
+        「我說此話，是沉重的心情。我真的希望我是錯的。」
+      </div>
+    </div>
+    <div class="card-dark" style="border-color:var(--gold); border-width:2px;">
+      <div class="card-title">亞洲：蒙召的時刻</div>
+      <div class="card-body">
+        聚光燈約 2030 年轉向亞洲<br><br>
+        <ul class="content-list dark-list" style="margin:0;">
+          <li>台灣蒙召為亞洲的約瑟</li>
+          <li>中國蒙召成為老大哥，祝福列國</li>
+          <li>東門是耶穌再來的著陸跑道</li>
+          <li>新馬印台同在太平洋——命運共同體</li>
+        </ul><br>
+        <em style="color:var(--gold-l);">「我從未親眼見過如此大的事正在我們眼前發生。」</em>
+      </div>
+    </div>
+  </div>
+  <div class="callout-burg">天上的聚光燈正在轉向，亞洲末世教會必須準備好接棒</div>
+  <div class="slide-footer" style="color:rgba(212,160,23,0.4);">8 / 12</div>
+</div>
+
+<!-- ─── SLIDE 9: 守望以色列 ───────────────────────────────── -->
+<div class="slide slide-light">
+  <div class="slide-title dark-title">使命一：守望以色列</div>
+  <div class="grid2">
+    <div class="card-dark">
+      <div class="card-title">啟示錄5章的啟示</div>
+      <div class="card-body">
+        約翰在天上看見大屠殺（1939–1945），嚎啕大哭，因六百萬猶太人被滅絕。<br><br>
+        <strong style="color:var(--gold-l);">耶穌看見約翰的哭泣，起身接過萬國業權狀。</strong><br><br>
+        書卷 = 萬國的業權狀<br>
+        1948年以色列復國 = 天上決議的地上彰顯<br><br>
+        <em style="color:var(--gold-l);">「你不能把耶穌從以色列分開，也不能把以色列從耶穌分開。」</em>
+      </div>
+    </div>
+    <div class="card-light">
+      <div class="card-title dark-ct">我們的守望責任</div>
+      <div class="card-body dark-cb">
+        台灣 = 東方的以色列<br>
+        蒙召為亞洲列國的祝福<br><br>
+        <strong>啟示錄6–19章：審判萬國</strong>
+        <ul class="content-list light-list" style="margin:4px 0;">
+          <li>七印：經濟危機</li>
+          <li>七號：生態危機</li>
+          <li>七碗：能源危機（中東）</li>
+        </ul>
+        <em style="color:var(--burg);">「太平洋把我們連在一起——這不是別人的戰場，而是我們的後院。」</em>
+      </div>
+    </div>
+  </div>
+  <div class="quote-box">
+    「以色列的神是萬國之神，我們稱祂為耶穌。以國家的名義獻上自己：新加坡在這裡，馬來西亞在這裡，印尼在這裡，台灣在這裡。」
+    <div class="quote-src">— 2026 Lesson 10（2026.06.15）</div>
+  </div>
+  <div class="slide-footer">9 / 12</div>
+</div>
+
+<!-- ─── SLIDE 10: 門訓萬國 ────────────────────────────────── -->
+<div class="slide slide-dark">
+  <div class="slide-title-dark">使命二：恢復天國福音 · 門訓萬國</div>
+  <div class="callout-burg">「天上地下所有的權柄都賜給我了。所以你們要去，使萬民作我的門徒……」（太28:18–19）</div>
+  <div class="grid2">
+    <div class="card-dark">
+      <div class="card-title">恢復完整的福音</div>
+      <div class="card-body">Q3只傳靈魂得救，失去天國視野。Q4必須恢復「天國福音」——包括國家、市場、創造的全面恢復。</div>
+    </div>
+    <div class="card-dark">
+      <div class="card-title">恢復主權神學</div>
+      <div class="card-body">上帝完全掌管歷史。必須打倒「開放神論」（Open Theism）的謊言，讓信心而非恐懼成為驅動力。</div>
+    </div>
+    <div class="card-dark">
+      <div class="card-title">進入市場與國度</div>
+      <div class="card-body">Ecclesia 是神國度的經濟臂膀。責任不是個人繁榮，而是國家繁榮——使我們的國家實現神的呼召。</div>
+    </div>
+    <div class="card-dark">
+      <div class="card-title">成為耶穌的跑道</div>
+      <div class="card-body">東門是耶穌的著陸點。如飛行員提前宣告著陸，我們是預備主再來的一代——預備道路，落對跑道。</div>
+    </div>
+  </div>
+  <div class="slide-footer" style="color:rgba(212,160,23,0.4);">10 / 12</div>
+</div>
+
+<!-- ─── SLIDE 11: 耶穌的授權 ──────────────────────────────── -->
+<div class="slide slide-light">
+  <div class="slide-title dark-title">根基：耶穌是全然被授權的王</div>
+  <div class="five-a">
+    <div class="a-step">
+      <div class="a-letter">A</div>
+      <div class="a-word">Alive</div>
+      <div class="a-zh">祂還活著</div>
+      <div class="a-ref">啟示錄1章</div>
+      <div class="a-desc">公元96年，耶穌仍活著——不是歷史的記憶，而是活在當下的主</div>
+    </div>
+    <div class="a-step">
+      <div class="a-letter">A</div>
+      <div class="a-word">Active</div>
+      <div class="a-zh">祂是活躍的</div>
+      <div class="a-ref">啟示錄2–3章</div>
+      <div class="a-desc">在七個教會中，祂清楚描述每間教會正在發生的事——祂知道，祂在乎</div>
+    </div>
+    <div class="a-step">
+      <div class="a-letter">A</div>
+      <div class="a-word">Authorized</div>
+      <div class="a-zh">祂是被授權的</div>
+      <div class="a-ref">啟示錄4章</div>
+      <div class="a-desc">坐在寶座上——全宇宙的歷史在祂的掌管之下，非凱撒，非敵基督</div>
+    </div>
+    <div class="a-step">
+      <div class="a-letter">A</div>
+      <div class="a-word">Alone</div>
+      <div class="a-zh">唯有祂</div>
+      <div class="a-ref">啟示錄5章</div>
+      <div class="a-desc">羔羊是唯一配得開書卷的——接過萬國業權狀，從此完全授權</div>
+    </div>
+    <div class="a-step">
+      <div class="a-letter">A</div>
+      <div class="a-word">Acts</div>
+      <div class="a-zh">祂正在行動</div>
+      <div class="a-ref">啟示錄6–19章</div>
+      <div class="a-desc">以公義的審判官身份，按計劃推動歷史——七印、七號、七碗</div>
+    </div>
+  </div>
+  <div class="callout-gold">「天上地下所有的權柄都賜給我了」（太28:18）—— 這是末世亞洲教會行動的根基</div>
+  <div class="slide-footer">11 / 12</div>
+</div>
+
+<!-- ─── SLIDE 12: 呼召總結 ────────────────────────────────── -->
+<div class="slide slide-dark">
+  <div class="slide-title-dark" style="text-align:center;">起來！承擔我們的呼召</div>
+  <div class="grid2">
+    <div class="item-row" style="margin-bottom:8px;">
+      <div class="item-num">1</div>
+      <div class="item-content">
+        <div class="item-title">認識我們的位置</div>
+        <div class="item-text">我們是第四象限末世亞洲教會——故事的最後一棒，結局由我們承擔。</div>
+      </div>
+    </div>
+    <div class="item-row" style="margin-bottom:8px;">
+      <div class="item-num">2</div>
+      <div class="item-content">
+        <div class="item-title">絕對不能犯錯</div>
+        <div class="item-text">落對跑道，走對方向。不被欺騙，不被恐懼驅動。</div>
+      </div>
+    </div>
+    <div class="item-row" style="margin-bottom:8px;">
+      <div class="item-num">3</div>
+      <div class="item-content">
+        <div class="item-title">恢復天國福音</div>
+        <div class="item-text">不只是靈魂得救，更是萬國被門訓、天國在地上降臨。</div>
+      </div>
+    </div>
+    <div class="item-row" style="margin-bottom:8px;">
+      <div class="item-num">4</div>
+      <div class="item-content">
+        <div class="item-title">守望以色列與台灣</div>
+        <div class="item-text">以禱告守護東方的以色列，預備主再來之路。</div>
+      </div>
+    </div>
+    <div class="item-row" style="margin-bottom:8px;">
+      <div class="item-num">5</div>
+      <div class="item-content">
+        <div class="item-title">進入市場與國度</div>
+        <div class="item-text">成為神國度的經濟臂膀，追求國家繁榮而非個人繁榮。</div>
+      </div>
+    </div>
+    <div class="item-row" style="margin-bottom:8px;">
+      <div class="item-num">6</div>
+      <div class="item-content">
+        <div class="item-title">行動的禱告</div>
+        <div class="item-text">知道我們在故事哪個位置，用禱告把故事推向下一站。</div>
+      </div>
+    </div>
+  </div>
+  <div class="callout-gold" style="margin-top:10px;">「Ekklesia 起來，恢復治理，Eden 伊甸園 2.0 降臨！」</div>
+  <div class="slide-footer" style="color:rgba(212,160,23,0.4);">12 / 12</div>
+</div>
+
+</div><!-- #slides -->
+
+<div id="key-hint">← → 鍵盤切換</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const counter = document.getElementById('slide-counter');
+const fill = document.getElementById('progress-fill');
+let cur = 0;
+
+function show(n) {
+  slides[cur].classList.remove('active');
+  cur = Math.max(0, Math.min(n, slides.length - 1));
+  slides[cur].classList.add('active');
+  counter.textContent = (cur + 1) + ' / ' + slides.length;
+  fill.style.width = ((cur + 1) / slides.length * 100) + '%';
+  window.scrollTo(0, 0);
+}
+function nextSlide() { show(cur + 1); }
+function prevSlide() { show(cur - 1); }
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+});
+
+// Touch swipe
+let tx = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
+  const dx = tx - e.changedTouches[0].clientX;
+  if (Math.abs(dx) > 40) { dx > 0 ? nextSlide() : prevSlide(); }
+});
+
+show(0);
+</script>
+</body>
+</html>
